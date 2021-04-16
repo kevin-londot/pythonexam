@@ -12,16 +12,16 @@ def main(stdscr):
     curses.cbreak()
     stdscr.keypad(True)
     stdscr.clear()
-    gameMap = init.initialisationMap(sys.argv[1], stdscr)
-    player1 = init.initialisationPlayer(gameMap)
-    boxes = init.initialisationBox(gameMap)
-    switches = init.initialisationSwitch(gameMap)
+    #gameMap = init.initialisationMap(sys.argv[1], stdscr)
+    #player1 = init.initialisationPlayer(gameMap)
+    #boxes = init.initialisationBox(gameMap)
+    #switches = init.initialisationSwitch(gameMap)
+    player1, boxes, switches = reset(sys.argv[1], stdscr)
 
     while True:
         entry = stdscr.getch()
         #print(player)
         player1.movePlayer(entry,stdscr)
-
         
         if entry == 3:
             raise KeyboardInterrupt

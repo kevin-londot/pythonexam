@@ -51,4 +51,12 @@ def initialisationSwitch(gameMap):
         return switches
     else:
         print("il faut au moins un interrupteur")
+
+def reset(filemap, stdscr):
+    gamemap = initialisationMap(filemap, stdscr)
+    player = initialisationPlayer(gameMap)
+    boxes = initialisationBox(gameMap)
+    switches = initialisationSwitch(gameMap)
+
+    return player, boxes, switches
    
