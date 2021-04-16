@@ -1,26 +1,41 @@
 import curses
+import collision
 
 class Box:
-    def __init__(self, coordX, coordY, state=False):
+    def __init__(self, coordX, coordY, locked=False):
         self.coordX = coordX
         self.coordY = coordY
-        self.state = state
+        self.locked = locked
 
-    def moveBox(self, key, stdscr):
-        if key == curses.KEY_UP:
-            self.coordY -= 1
-            stdscr.addstr( self.coordY,self.coordX, "P")
-            stdscr.refresh()
-        if key == curses.KEY_RIGHT:
-            stdscr.addstr(self.coordY,self.coordX,  " ")
-            self.coordX += 1
-            stdscr.addstr( self.coordY,self.coordX, "P")
-        if key == curses.KEY_DOWN:
-            stdscr.addstr(self.coordY,self.coordX,  " ")
-            self.coordY += 1
-            stdscr.addstr( self.coordY,self.coordX, "P")
-            stdscr.refresh()
-        if key == curses.KEY_LEFT:
-            stdscr.addstr(self.coordY,self.coordX,  " ")
-            self.coordX -= 1
-            stdscr.addstr( self.coordY,self.coordX, "P")
+    def moveBox(self,key,gameMap,boxes,switches,stdscr):
+        if (not self.locked):
+            if key == curses.KEY_UP:
+                if collision.checkCollision(gameMap,boxes,switches,self,key,stdscr):
+                    self.coordY -= 1
+                    stdscr.addstr(self.coordY,self.coordX, "O")
+                    stdscr.refresh() 
+                    return True
+                return False
+            if key == curses.KEY_RIGHT:
+                if collision.checkCollision(gameMap,boxes,switches,self,key,stdscr):
+                    self.coordX += 1
+                    stdscr.addstr(self.coordY,self.coordX, "O")
+                    stdscr.refresh() 
+                    return True
+                return False
+            if key == curses.KEY_DOWN:
+                if collision.checkCollision(gameMap,boxes,switches,self,key,stdscr):
+                    self.coordY += 1
+                    stdscr.addstr(self.coordY,self.coordX, "O")
+                    stdscr.refresh() 
+                    return True
+                return False
+            if key == curses.KEY_LEFT:
+                if collision.checkCollision(gameMap,boxes,switches,self,key,stdscr):
+                    self.coordX -= 1
+                    stdscr.addstr(self.coordY,self.coordX, "O")
+                    stdscr.refresh() 
+                    return True
+                return False
+        else:
+            return False

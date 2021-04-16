@@ -1,9 +1,12 @@
 import curses
+import sys
 import player
 import box
 import switch 
 
 def initialisationMap(filemap, stdscr):
+    # vérifier que fichier existe avec os
+
     stdscr.clear()
     gameMap = []
     with open(filemap, 'r') as file:
@@ -12,6 +15,7 @@ def initialisationMap(filemap, stdscr):
     for i in range(0, len(gameMap)):
         stdscr.addstr(i, 0, gameMap[i])
         stdscr.refresh()
+
     return gameMap
 
 def initialisationPlayer(gameMap):
@@ -53,10 +57,10 @@ def initialisationSwitch(gameMap):
         print("il faut au moins un interrupteur")
 
 def reset(filemap, stdscr):
-    gamemap = initialisationMap(filemap, stdscr)
+    gameMap = initialisationMap(filemap, stdscr)
     player = initialisationPlayer(gameMap)
     boxes = initialisationBox(gameMap)
     switches = initialisationSwitch(gameMap)
 
-    return player, boxes, switches
+    return gameMap, player, boxes, switches
    

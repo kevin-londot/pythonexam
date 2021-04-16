@@ -5,6 +5,7 @@ import init
 import player
 import box
 import switch
+import collision
 
 def main(stdscr):
     curses.curs_set(0)
@@ -12,26 +13,24 @@ def main(stdscr):
     curses.cbreak()
     stdscr.keypad(True)
     stdscr.clear()
-    #gameMap = init.initialisationMap(sys.argv[1], stdscr)
-    #player1 = init.initialisationPlayer(gameMap)
-    #boxes = init.initialisationBox(gameMap)
-    #switches = init.initialisationSwitch(gameMap)
-    player1, boxes, switches = reset(sys.argv[1], stdscr)
+
+    gameMap, player1, boxes, switches = init.reset(sys.argv[1], stdscr)
 
     while True:
         entry = stdscr.getch()
-        #print(player)
-        player1.movePlayer(entry,stdscr)
-        
+
+        if (entry == ord(" ")):
+            gameMap, player1, boxes, switches = init.reset(sys.argv[1], stdscr)
+
+        if (entry == curses.KEY_UP or entry == curses.KEY_RIGHT or entry == curses.KEY_DOWN or entry == curses.KEY_LEFT):
+            player1.movePlayer(entry,gameMap,boxes,switches,stdscr)
+
         if entry == 3:
             raise KeyboardInterrupt
-
 
 if __name__ == "__main__":
     # recuperer la carte
     if (len(sys.argv) != 2):
         sys.exit("Il faut charger une et une seule map.")
-    # on cherche ou est le p (x y)
-    # joueur = Joueur(x, y)
-    # player1 = player.Player(10,10)
+
     curses.wrapper(main)
